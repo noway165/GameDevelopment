@@ -1,0 +1,17 @@
+{
+    "name": "Metropolis.Game",
+    "rootNamespace": "Metropolis.Game",
+    "references": [
+        "Metropolis.Simulation",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
