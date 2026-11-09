@@ -1,0 +1,21 @@
+{
+    "name": "Metropolis.GameEditor",
+    "rootNamespace": "Metropolis.GameEditor",
+    "references": [
+        "Metropolis.Simulation",
+        "Metropolis.Game",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

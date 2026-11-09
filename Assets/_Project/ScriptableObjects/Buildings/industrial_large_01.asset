@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8d4db3228ca3c49be107bc06bcbb58, type: 3}
+  m_Name: industrial_large_01
+  m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.BuildingAsset
+  id: industrial_large_01
+  kind: 2
+  constructionCost: 0
+  maintenance: 18
+  capacity: 30
+  powerDemand: 35
+  waterDemand: 18
+  supply: 0
+  prefab: {fileID: 6136006840133243827, guid: 2298997e462c7ed4c8be0257aa0e1328, type: 3}

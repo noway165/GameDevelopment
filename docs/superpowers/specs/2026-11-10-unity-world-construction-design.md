@@ -13,9 +13,10 @@ in Unity 6.3 LTS (`6000.3.28f1`), with placeholder art.
 **Success:** the player opens `GameWorld`, moves the camera, draws roads, paints zones,
 places power and water, and watches buildings grow through the simulation.
 
-The developer authors the scene and prefabs by hand in the Unity Editor. Claude writes
-all C# and tests, and supplies a checklist for every Editor step with the task that
-needs it.
+The Editor script `WorldBuilder` generates the scene, prefabs, materials and building
+assets, because the hand-built checklist proved too much for a first-time Unity user.
+The results are ordinary Unity files that can be edited in the Editor afterwards, but
+running the script again replaces them.
 
 ## 2. Scope
 
@@ -33,8 +34,8 @@ visuals, rebindable keys.
 
 | Owner | Work |
 |---|---|
-| Developer, in the Editor | `GameWorld.unity`, Terrain, lighting, URP asset, placeholder prefabs (1 road, 3 zone, 7 building, 1 preview), 7 `BuildingAsset` files, Inspector references |
-| Claude | All C#, `Packages/manifest.json`, tests, Editor checklists |
+| Developer | Playtest, feel tuning in the Inspector, FPS measurement |
+| Claude | All C#, `Packages/manifest.json`, tests, and `WorldBuilder`, which generates `GameWorld.unity`, Terrain, lighting, URP asset, placeholder prefabs (1 road, 3 zone, 7 building, 1 preview), 7 `BuildingAsset` files and Inspector references |
 
 Scenes and prefabs use text serialization, so changes can be reviewed as diffs.
 

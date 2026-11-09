@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8d4db3228ca3c49be107bc06bcbb58, type: 3}
+  m_Name: residential_low_01
+  m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.BuildingAsset
+  id: residential_low_01
+  kind: 0
+  constructionCost: 0
+  maintenance: 5
+  capacity: 20
+  powerDemand: 10
+  waterDemand: 8
+  supply: 0
+  prefab: {fileID: 3801273568217368065, guid: ccab9cc3edd91fa45ae70d9e497d69e8, type: 3}

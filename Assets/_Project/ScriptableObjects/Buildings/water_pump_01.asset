@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8d4db3228ca3c49be107bc06bcbb58, type: 3}
+  m_Name: water_pump_01
+  m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.BuildingAsset
+  id: water_pump_01
+  kind: 4
+  constructionCost: 3000
+  maintenance: 60
+  capacity: 0
+  powerDemand: 0
+  waterDemand: 0
+  supply: 400
+  prefab: {fileID: 3313005905990304683, guid: e109e70fbbe800e4bb5ad5a41fe85407, type: 3}
