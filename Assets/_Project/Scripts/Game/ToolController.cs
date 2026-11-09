@@ -62,7 +62,7 @@ namespace Metropolis.Game
             if (IsDragTool)
                 _dragStart = cell;
             else
-                Run(ClickCommand(cell.Value));
+                RunClick(cell.Value);
             RecomputePreview();
         }
 
@@ -113,6 +113,15 @@ namespace Metropolis.Game
                 LastFailure = firstFailure;
             else
                 Run(new CreateZoneCommand(valid, type));
+        }
+
+        void RunClick(Cell cell)
+        {
+            Run(ClickCommand(cell));
+
+            // Utilities are costly: repeated clicks once bankrupted a playtest city.
+            if (LastFailure == CommandFailure.None && Tool != BuildTool.Bulldoze)
+                Tool = BuildTool.None;
         }
 
         void Run(ICommand command)

@@ -1,7 +1,7 @@
 # Project METROPOLIS: Unity World and Construction Design
 
 **Date:** 2026-11-10
-**Status:** Awaiting review
+**Status:** Implemented
 **Source:** Project METROPOLIS Game Development Blueprint v1.0
 **Builds on:** `docs/superpowers/specs/2026-11-09-simulation-core-design.md`
 
@@ -138,7 +138,7 @@ Every refused command changes nothing and shows its `CommandFailure` on the read
   `MaterialPropertyBlock`.
 - All views draw existing state at startup, so the entry road is visible on the first
   frame.
-- Each road, zone and building is one GameObject. A full map is about 10,000 objects.
+- Each road, zone and building is one GameObject. A full map is about 18,000 objects, counting zones under buildings.
   Instanced drawing is added only if profiling requires it.
 
 The readout shows day, population, budget, speed, demand, current tool, last refusal and
@@ -175,3 +175,16 @@ Device reading in `InputBridge` is thin and covered by the playtest, not simulat
 
 **Not verifiable by code alone:** camera feel and visual correctness, which need the
 developer's playtest.
+
+## 14. Measured performance
+
+Measured on the target machine (GTX 1650, 7.4 GB RAM) in the Editor with `Camera.Render`
+at 1920×1080, on a map of 7,920 buildings and 17,920 scene objects, zoomed out to the
+maximum height:
+
+| Measure | Result |
+|---|---|
+| Frame render time | 24.3 ms, about 41 FPS |
+| `AdvanceDay` | 8.4 ms |
+
+This is an Editor batch measurement, not a Profiler capture of a built player.

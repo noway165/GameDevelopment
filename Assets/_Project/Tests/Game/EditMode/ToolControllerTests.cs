@@ -92,6 +92,27 @@ namespace Metropolis.Game.Tests
         }
 
         [Test]
+        public void Utility_ClearsToolAfterBuilding_SoOneClickBuildsOne()
+        {
+            Street();
+            _tools.SelectTool(BuildTool.PowerPlant);
+            _tools.PointerDown(C(1, 51));
+            _tools.PointerUp(C(1, 51));
+            _tools.PointerDown(C(2, 51));
+            Assert.That(_tools.Tool, Is.EqualTo(BuildTool.None));
+            Assert.That(_sim.City.Buildings.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Utility_KeepsToolWhenRefused()
+        {
+            _tools.SelectTool(BuildTool.PowerPlant);
+            _tools.PointerDown(C(40, 5));
+            Assert.That(_tools.LastFailure, Is.EqualTo(CommandFailure.NoRoadAccess));
+            Assert.That(_tools.Tool, Is.EqualTo(BuildTool.PowerPlant));
+        }
+
+        [Test]
         public void Bulldoze_PrefersBuilding_ThenRoad_ThenZone()
         {
             Street();

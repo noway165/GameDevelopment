@@ -20,6 +20,7 @@ namespace Metropolis.Game
             GUILayout.Label("Day " + city.Day + "   Speed " + game.Clock.Speed);
             GUILayout.Label("Population " + city.Population + "   Budget " + city.Budget);
             GUILayout.Label("Demand R " + stats.ResidentialDemand + "  C " + stats.CommercialDemand + "  I " + stats.IndustrialDemand);
+            GUILayout.Label("Power left " + stats.PowerRemaining + "   Water left " + stats.WaterRemaining);
             GUILayout.Label("Tool " + tools.Tool);
             GUILayout.Label("Last result " + tools.LastFailure);
 
