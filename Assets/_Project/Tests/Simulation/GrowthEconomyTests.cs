@@ -42,10 +42,10 @@ namespace Metropolis.Core.Tests
         public void Growth_StopsWhenSpareRunsOut_AndReserves()
         {
             var w = Zoned(100);
-            w.Stats.PowerRemaining = 15;
+            w.Stats.PowerRemaining = 12; // first cell takes 10; second cell's variant needs 5
             GrowthSystem.Run(w.Ctx, w.Work);
             Assert.That(w.City.Buildings.Count, Is.EqualTo(1));
-            Assert.That(w.Stats.PowerRemaining, Is.EqualTo(5));
+            Assert.That(w.Stats.PowerRemaining, Is.EqualTo(2));
         }
 
         [Test]
