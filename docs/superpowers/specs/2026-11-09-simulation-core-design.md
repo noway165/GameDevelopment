@@ -141,7 +141,7 @@ These are parameters, to be tuned using the balance scenario in section 12.
 | `ResidentTaxBase`, `JobTaxBase` | 20, 30 |
 | `LeaveThreshold`, `LeavePercent` | 40, 2 |
 | `SecondsPerDay` at 1x | 2 |
-| `GrowthDemandThreshold`, `MaxGrowthPerType` | 20, 4 |
+| `GrowthDemandThreshold`, `MaxGrowthPerType` | 10, 4 |
 
 | Definition | Type | Cost | Maintenance | Residents or jobs | Power | Water | Supply |
 |---|---|---|---|---|---|---|---|

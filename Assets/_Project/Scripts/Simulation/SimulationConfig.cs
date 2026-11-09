@@ -20,7 +20,7 @@ namespace Metropolis.Core
         public int LeavePercent { get; set; } = 2;
         public int SecondsPerDay { get; set; } = 2;
         public int MaxDaysPerAdvance { get; set; } = 8;
-        public int GrowthDemandThreshold { get; set; } = 20;
+        public int GrowthDemandThreshold { get; set; } = 10;
         public int GrowthDemandDivisor { get; set; } = 25;
         public int MaxGrowthPerType { get; set; } = 4;
         public int ResidentialDemandBase { get; set; } = 40;
