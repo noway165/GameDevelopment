@@ -39,6 +39,14 @@ namespace Metropolis.Core.Tests
             Assert.That(w.City.Budget, Is.EqualTo(50000L));
         }
 
+        [Test]
+        public void BuildRoad_ExtremeCoordinates_AreOutOfBounds() =>
+            Assert.That(Run(Street(), new BuildRoadCommand(C(int.MinValue, 10), C(0, 10))), Is.EqualTo(CommandFailure.OutOfBounds));
+
+        [Test]
+        public void RemoveRoad_ExtremeCoordinates_AreOutOfBounds() =>
+            Assert.That(Run(Street(), new RemoveRoadCommand(C(int.MinValue, 10), C(0, 10))), Is.EqualTo(CommandFailure.OutOfBounds));
+
         [TestCase(30L, CommandFailure.None, 0L)]
         [TestCase(29L, CommandFailure.InsufficientFunds, 29L)]
         public void BuildRoad_ExactFunds(long budget, CommandFailure expected, long after)

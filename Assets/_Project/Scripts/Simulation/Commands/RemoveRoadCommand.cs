@@ -17,11 +17,11 @@ namespace Metropolis.Core
                 return CommandResult.Fail(CommandFailure.NotStraight);
 
             var city = ctx.City;
-            var line = RoadLine.Cells(_from, _to);
-            foreach (var cell in line)
-                if (!city.IsInBounds(cell))
-                    return CommandResult.Fail(CommandFailure.OutOfBounds);
+            // Endpoints first: expanding an unchecked line could allocate billions of cells.
+            if (!city.IsInBounds(_from) || !city.IsInBounds(_to))
+                return CommandResult.Fail(CommandFailure.OutOfBounds);
 
+            var line = RoadLine.Cells(_from, _to);
             bool anyRoad = false;
             foreach (var cell in line)
             {
