@@ -69,8 +69,10 @@ namespace Metropolis.GameEditor
             var assets = CreateBuildingAssets(buildingPrefabs);
 
             var terrain = CreateTerrain(terrainLayer);
-            CreateCameraAndLight();
-            WireController(terrain, assets, road, residential, commercial, industrial, preview);
+            var rig = CreateCameraRig(out var view);
+            CreateSun();
+            var controller = WireController(terrain, assets, road, residential, commercial, industrial, preview);
+            WireInput(controller, rig, view, terrainLayer);
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
@@ -197,20 +199,42 @@ namespace Metropolis.GameEditor
             return terrain;
         }
 
-        static void CreateCameraAndLight()
+        static CameraRig CreateCameraRig(out Camera view)
         {
-            var camera = new GameObject("Main Camera").AddComponent<Camera>();
-            camera.gameObject.tag = "MainCamera";
-            camera.transform.SetPositionAndRotation(new Vector3(400, 200, 260), Quaternion.Euler(55, 0, 0));
-            camera.farClipPlane = 3000;
+            var rig = new GameObject("CameraRig").AddComponent<CameraRig>();
+            rig.transform.position = new Vector3(400, 150, 300);
 
+            view = new GameObject("Main Camera").AddComponent<Camera>();
+            view.gameObject.tag = "MainCamera";
+            view.farClipPlane = 3000;
+            view.transform.SetParent(rig.transform, false);
+            view.transform.localRotation = Quaternion.Euler(55, 0, 0);
+            return rig;
+        }
+
+        static void CreateSun()
+        {
             var sun = new GameObject("Sun").AddComponent<Light>();
             sun.type = LightType.Directional;
             sun.shadows = LightShadows.Soft;
             sun.transform.rotation = Quaternion.Euler(50, -30, 0);
         }
 
-        static void WireController(Terrain terrain, List<BuildingAsset> assets, GameObject road,
+        static void WireInput(GameController controller, CameraRig rig, Camera view, int terrainLayer)
+        {
+            var input = new SerializedObject(controller.gameObject.AddComponent<InputBridge>());
+            input.FindProperty("game").objectReferenceValue = controller;
+            input.FindProperty("rig").objectReferenceValue = rig;
+            input.FindProperty("view").objectReferenceValue = view;
+            input.FindProperty("terrainMask").intValue = 1 << terrainLayer;
+            input.ApplyModifiedPropertiesWithoutUndo();
+
+            var readout = new SerializedObject(controller.gameObject.AddComponent<DebugReadout>());
+            readout.FindProperty("game").objectReferenceValue = controller;
+            readout.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        static GameController WireController(Terrain terrain, List<BuildingAsset> assets, GameObject road,
             GameObject residential, GameObject commercial, GameObject industrial, GameObject preview)
         {
             var controller = new GameObject("Game").AddComponent<GameController>();
@@ -228,6 +252,7 @@ namespace Metropolis.GameEditor
                 list.GetArrayElementAtIndex(i).objectReferenceValue = assets[i];
 
             wiring.ApplyModifiedPropertiesWithoutUndo();
+            return controller;
         }
     }
 }
