@@ -9,12 +9,18 @@ namespace Metropolis.Core
             _buildingId = buildingId;
         }
 
+        public CommandResult Validate(SimContext ctx) =>
+            ctx.City.FindBuilding(_buildingId) != null
+                ? CommandResult.Ok
+                : CommandResult.Fail(CommandFailure.UnknownBuilding);
+
         public CommandResult Execute(SimContext ctx)
         {
-            var building = ctx.City.FindBuilding(_buildingId);
-            if (building == null)
-                return CommandResult.Fail(CommandFailure.UnknownBuilding);
+            var result = Validate(ctx);
+            if (!result.Succeeded)
+                return result;
 
+            var building = ctx.City.FindBuilding(_buildingId);
             ctx.City.RemoveBuilding(building);
             ctx.Events.RaiseBuildingRemoved(building);
             return CommandResult.Ok;

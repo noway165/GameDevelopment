@@ -13,8 +13,31 @@ namespace Metropolis.Core
             _to = to;
         }
 
+        public CommandResult Validate(SimContext ctx) => Check(ctx, out _, out _);
+
         public CommandResult Execute(SimContext ctx)
         {
+            var result = Check(ctx, out var newCells, out long cost);
+            if (!result.Succeeded)
+                return result;
+
+            var city = ctx.City;
+            foreach (var cell in newCells)
+                city.SetRoad(cell, true);
+            ctx.Roads.Rebuild();
+            city.Budget -= cost;
+
+            ctx.Events.RaiseRoadsChanged();
+            if (cost > 0)
+                ctx.Events.RaiseBudgetChanged(city.Budget);
+            return CommandResult.Ok;
+        }
+
+        CommandResult Check(SimContext ctx, out List<Cell> newCells, out long cost)
+        {
+            newCells = new List<Cell>();
+            cost = 0;
+
             if (!RoadLine.IsStraight(_from, _to))
                 return CommandResult.Fail(CommandFailure.NotStraight);
 
@@ -23,9 +46,7 @@ namespace Metropolis.Core
             if (!city.IsInBounds(_from) || !city.IsInBounds(_to))
                 return CommandResult.Fail(CommandFailure.OutOfBounds);
 
-            var line = RoadLine.Cells(_from, _to);
-            var newCells = new List<Cell>();
-            foreach (var cell in line)
+            foreach (var cell in RoadLine.Cells(_from, _to))
             {
                 if (city.HasRoad(cell))
                     continue;
@@ -37,18 +58,10 @@ namespace Metropolis.Core
             if (newCells.Count == 0)
                 return CommandResult.Fail(CommandFailure.NothingToDo);
 
-            long cost = (long)newCells.Count * ctx.Config.RoadCostPerCell;
+            cost = (long)newCells.Count * ctx.Config.RoadCostPerCell;
             if (cost > city.Budget)
                 return CommandResult.Fail(CommandFailure.InsufficientFunds);
 
-            foreach (var cell in newCells)
-                city.SetRoad(cell, true);
-            ctx.Roads.Rebuild();
-            city.Budget -= cost;
-
-            ctx.Events.RaiseRoadsChanged();
-            if (cost > 0)
-                ctx.Events.RaiseBudgetChanged(city.Budget);
             return CommandResult.Ok;
         }
     }

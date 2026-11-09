@@ -11,7 +11,7 @@ namespace Metropolis.Core
             _cells = cells;
         }
 
-        public CommandResult Execute(SimContext ctx)
+        public CommandResult Validate(SimContext ctx)
         {
             if (_cells.Count == 0)
                 return CommandResult.Fail(CommandFailure.NothingToDo);
@@ -27,8 +27,17 @@ namespace Metropolis.Core
                 if (city.GetZone(cell) == ZoneType.None)
                     return CommandResult.Fail(CommandFailure.NothingToDo);
 
+            return CommandResult.Ok;
+        }
+
+        public CommandResult Execute(SimContext ctx)
+        {
+            var result = Validate(ctx);
+            if (!result.Succeeded)
+                return result;
+
             foreach (var cell in _cells)
-                city.SetZone(cell, ZoneType.None);
+                ctx.City.SetZone(cell, ZoneType.None);
 
             ctx.Events.RaiseZonesChanged();
             return CommandResult.Ok;

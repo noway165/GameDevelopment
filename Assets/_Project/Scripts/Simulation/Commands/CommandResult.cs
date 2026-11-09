@@ -29,7 +29,7 @@ namespace Metropolis.Core
         public static CommandResult Fail(CommandFailure failure) => new CommandResult(failure);
     }
 
-    static class RoadLine
+    public static class RoadLine
     {
         public static bool IsStraight(Cell from, Cell to) => from.X == to.X || from.Y == to.Y;
 

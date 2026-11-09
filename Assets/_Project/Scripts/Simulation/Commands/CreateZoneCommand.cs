@@ -13,7 +13,7 @@ namespace Metropolis.Core
             _type = type;
         }
 
-        public CommandResult Execute(SimContext ctx)
+        public CommandResult Validate(SimContext ctx)
         {
             if (_cells.Count == 0 || _type == ZoneType.None)
                 return CommandResult.Fail(CommandFailure.NothingToDo);
@@ -29,8 +29,17 @@ namespace Metropolis.Core
                 if (!ctx.Roads.HasRoadAccess(cell))
                     return CommandResult.Fail(CommandFailure.NoRoadAccess);
 
+            return CommandResult.Ok;
+        }
+
+        public CommandResult Execute(SimContext ctx)
+        {
+            var result = Validate(ctx);
+            if (!result.Succeeded)
+                return result;
+
             foreach (var cell in _cells)
-                city.SetZone(cell, _type);
+                ctx.City.SetZone(cell, _type);
 
             ctx.Events.RaiseZonesChanged();
             return CommandResult.Ok;

@@ -11,7 +11,7 @@ namespace Metropolis.Core
             _cell = cell;
         }
 
-        public CommandResult Execute(SimContext ctx)
+        public CommandResult Validate(SimContext ctx)
         {
             if (!ctx.Catalog.TryGet(_definitionId, out var definition))
                 return CommandResult.Fail(CommandFailure.UnknownDefinition);
@@ -28,11 +28,22 @@ namespace Metropolis.Core
             if (definition.ConstructionCost > city.Budget)
                 return CommandResult.Fail(CommandFailure.InsufficientFunds);
 
+            return CommandResult.Ok;
+        }
+
+        public CommandResult Execute(SimContext ctx)
+        {
+            var result = Validate(ctx);
+            if (!result.Succeeded)
+                return result;
+
+            var city = ctx.City;
+            var cost = ctx.Catalog.Get(_definitionId).ConstructionCost;
             var building = city.AddBuilding(_definitionId, _cell);
-            city.Budget -= definition.ConstructionCost;
+            city.Budget -= cost;
 
             ctx.Events.RaiseBuildingAdded(building);
-            if (definition.ConstructionCost > 0)
+            if (cost > 0)
                 ctx.Events.RaiseBudgetChanged(city.Budget);
             return CommandResult.Ok;
         }

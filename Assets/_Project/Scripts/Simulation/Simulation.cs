@@ -14,6 +14,7 @@ namespace Metropolis.Core
         public SimulationEvents Events => Context.Events;
 
         public CommandResult Execute(ICommand command) => command.Execute(Context);
+        public CommandResult Validate(ICommand command) => command.Validate(Context);
 
         public void AdvanceDay()
         {

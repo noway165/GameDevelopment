@@ -11,7 +11,7 @@ namespace Metropolis.Core
             _to = to;
         }
 
-        public CommandResult Execute(SimContext ctx)
+        public CommandResult Validate(SimContext ctx)
         {
             if (!RoadLine.IsStraight(_from, _to))
                 return CommandResult.Fail(CommandFailure.NotStraight);
@@ -21,20 +21,25 @@ namespace Metropolis.Core
             if (!city.IsInBounds(_from) || !city.IsInBounds(_to))
                 return CommandResult.Fail(CommandFailure.OutOfBounds);
 
-            var line = RoadLine.Cells(_from, _to);
             bool anyRoad = false;
-            foreach (var cell in line)
+            foreach (var cell in RoadLine.Cells(_from, _to))
             {
                 if (cell.Equals(city.EntryRoad))
                     return CommandResult.Fail(CommandFailure.ProtectedRoad);
                 anyRoad |= city.HasRoad(cell);
             }
 
-            if (!anyRoad)
-                return CommandResult.Fail(CommandFailure.NothingToDo);
+            return anyRoad ? CommandResult.Ok : CommandResult.Fail(CommandFailure.NothingToDo);
+        }
 
-            foreach (var cell in line)
-                city.SetRoad(cell, false);
+        public CommandResult Execute(SimContext ctx)
+        {
+            var result = Validate(ctx);
+            if (!result.Succeeded)
+                return result;
+
+            foreach (var cell in RoadLine.Cells(_from, _to))
+                ctx.City.SetRoad(cell, false);
             ctx.Roads.Rebuild();
 
             ctx.Events.RaiseRoadsChanged();

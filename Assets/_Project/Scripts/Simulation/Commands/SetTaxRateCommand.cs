@@ -9,13 +9,17 @@ namespace Metropolis.Core
             _rate = rate;
         }
 
+        public CommandResult Validate(SimContext ctx) =>
+            _rate < 0 || _rate > ctx.Config.MaxTaxRate
+                ? CommandResult.Fail(CommandFailure.InvalidTaxRate)
+                : CommandResult.Ok;
+
         public CommandResult Execute(SimContext ctx)
         {
-            if (_rate < 0 || _rate > ctx.Config.MaxTaxRate)
-                return CommandResult.Fail(CommandFailure.InvalidTaxRate);
-
-            ctx.City.TaxRate = _rate;
-            return CommandResult.Ok;
+            var result = Validate(ctx);
+            if (result.Succeeded)
+                ctx.City.TaxRate = _rate;
+            return result;
         }
     }
 }
