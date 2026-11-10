@@ -68,6 +68,27 @@ namespace Metropolis.Game.Tests
         }
 
         [Test]
+        public void Terrain_HasPaintedCellGrid()
+        {
+            // Without a layer the checkerboard exists only in the Editor, and a build shows blank white.
+            var layers = Controller().Terrain.terrainData.terrainLayers;
+            Assert.That(layers.Length, Is.EqualTo(1));
+            Assert.That(layers[0].diffuseTexture, Is.Not.Null);
+            Assert.That(layers[0].tileSize, Is.EqualTo(new Vector2(8, 8)));
+        }
+
+        [Test]
+        public void Camera_StartsWithEntryRoadInView()
+        {
+            var view = Camera.main;
+            view.aspect = 16f / 9f;
+            var entry = view.WorldToViewportPoint(new Vector3(4, 0, 404));
+            Assert.That(entry.z, Is.GreaterThan(0));
+            Assert.That(entry.x, Is.InRange(0.05f, 0.95f));
+            Assert.That(entry.y, Is.InRange(0.15f, 0.85f));
+        }
+
+        [Test]
         public void Scene_IsInBuildList() =>
             Assert.That(EditorBuildSettings.scenes.Any(s => s.path.EndsWith("GameWorld.unity")), Is.True);
     }

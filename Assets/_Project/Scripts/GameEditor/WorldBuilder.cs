@@ -203,13 +203,43 @@ namespace Metropolis.GameEditor
             go.transform.position = Vector3.zero;
             var terrain = go.GetComponent<Terrain>();
             terrain.materialTemplate = material;
+            data.terrainLayers = new[] { CreateGridLayer() };
             return terrain;
+        }
+
+        /// <summary>Grass with one drawn cell per tile, so players can see the grid in a build.</summary>
+        static TerrainLayer CreateGridLayer()
+        {
+            const int size = 64;
+            const int line = 2;
+            var grass = new Color32(106, 142, 84, 255);
+            var border = new Color32(84, 116, 66, 255);
+            var pixels = new Color32[size * size];
+            for (int y = 0; y < size; y++)
+                for (int x = 0; x < size; x++)
+                    pixels[y * size + x] = x < line || y < line ? border : grass;
+
+            var image = new Texture2D(size, size, TextureFormat.RGBA32, false);
+            image.SetPixels32(pixels);
+            const string path = Root + "Art/Terrain/GrassGrid.png";
+            File.WriteAllBytes(path, image.EncodeToPNG());
+            Object.DestroyImmediate(image);
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+
+            var layer = new TerrainLayer
+            {
+                diffuseTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path),
+                tileSize = new Vector2(CellSize, CellSize),
+            };
+            AssetDatabase.CreateAsset(layer, Root + "Art/Terrain/GrassGrid.terrainlayer");
+            return layer;
         }
 
         static CameraRig CreateCameraRig(out Camera view)
         {
             var rig = new GameObject("CameraRig").AddComponent<CameraRig>();
-            rig.transform.position = new Vector3(400, 150, 300);
+            // Near the entry road, where every city has to start.
+            rig.transform.position = new Vector3(90, 110, 340);
 
             view = new GameObject("Main Camera").AddComponent<Camera>();
             view.gameObject.tag = "MainCamera";
@@ -259,6 +289,10 @@ namespace Metropolis.GameEditor
             var wiring = new SerializedObject(ui);
             wiring.FindProperty("game").objectReferenceValue = controller;
             wiring.ApplyModifiedPropertiesWithoutUndo();
+
+            var capture = new SerializedObject(host.AddComponent<LaunchCapture>());
+            capture.FindProperty("ui").objectReferenceValue = ui;
+            capture.ApplyModifiedPropertiesWithoutUndo();
             return ui;
         }
 
