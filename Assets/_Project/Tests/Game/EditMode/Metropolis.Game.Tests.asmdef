@@ -4,6 +4,7 @@
     "references": [
         "Metropolis.Simulation",
         "Metropolis.Game",
+        "Metropolis.GameEditor",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

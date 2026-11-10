@@ -36,8 +36,14 @@ namespace Metropolis.GameEditor
         };
 
         [MenuItem("Metropolis/Build World")]
-        public static void Build()
+        public static void Build() => BuildUnlessCancelled(EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo);
+
+        public static void BuildUnlessCancelled(Func<bool> saveOpenScenes)
         {
+            // Building replaces the open scene, so unsaved work must be saved or the build abandoned.
+            if (!saveOpenScenes())
+                return;
+
             foreach (var folder in new[] { "Settings", "Scenes", "Art/Materials", "Art/Terrain",
                 "Prefabs/Roads", "Prefabs/Zones", "Prefabs/Buildings", "ScriptableObjects/Buildings" })
                 Directory.CreateDirectory(Root + folder);
