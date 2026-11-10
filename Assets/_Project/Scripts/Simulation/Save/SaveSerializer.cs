@@ -49,6 +49,19 @@ namespace Metropolis.Core
             return JsonConvert.SerializeObject(data, Settings);
         }
 
+        /// <summary>True when the text is well-formed save data, whether or not its contents validate.</summary>
+        public static bool IsParseable(string json)
+        {
+            try
+            {
+                return json != null && JsonConvert.DeserializeObject<CitySaveData>(json, Settings) != null;
+            }
+            catch (JsonException)
+            {
+                return false;
+            }
+        }
+
         public static bool TryLoad(string json, BuildingCatalog catalog, SimulationConfig config,
             out CityState state, out IReadOnlyList<string> errors)
         {

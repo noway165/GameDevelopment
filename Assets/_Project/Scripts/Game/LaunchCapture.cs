@@ -24,6 +24,8 @@ namespace Metropolis.Game
             yield return Frames(10);
 
             ui.NewCity();
+            if (ui.DialogOpen)
+                ui.ConfirmDialog();
             yield return Frames(60);
             ScreenCapture.CaptureScreenshot(Path.Combine(folder, "hud.png"));
             yield return Frames(30);

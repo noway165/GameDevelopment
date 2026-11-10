@@ -107,6 +107,8 @@ namespace Metropolis.Game
 
             if (_screen == UiScreen.PauseMenu)
                 ShowDialog("Start a new city? Unsaved progress will be lost.", StartNewCity);
+            else if (game.Saves.Exists)
+                ShowDialog("Start a new city? Your saved city will be replaced the next time you save.", StartNewCity);
             else
                 StartNewCity();
         }

@@ -82,6 +82,21 @@ namespace Metropolis.Game.PlayTests
             Assert.That(_ui.MenuOpen, Is.False);
         }
 
+        [Test]
+        public void NewCity_AtMainMenu_WithSavedCity_AsksFirst()
+        {
+            _c.StartNewCity();
+            _c.TrySave(out _);
+            _ui.NewCity();
+            Assert.That(_ui.DialogOpen, Is.True);
+            Assert.That(_ui.DialogText, Does.Contain("saved city"));
+            _ui.DismissDialog();
+            Assert.That(_ui.MenuOpen, Is.True);
+            _ui.NewCity();
+            _ui.ConfirmDialog();
+            Assert.That(_ui.MenuOpen, Is.False);
+        }
+
         [UnityTest]
         public IEnumerator Save_WritesFile_AndShowsNotice()
         {

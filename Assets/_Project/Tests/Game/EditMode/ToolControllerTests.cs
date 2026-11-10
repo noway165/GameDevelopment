@@ -204,6 +204,25 @@ namespace Metropolis.Game.Tests
         }
 
         [Test]
+        public void SelectTool_ClearsLastFailure()
+        {
+            _tools.SelectTool(BuildTool.PowerPlant);
+            _tools.PointerDown(C(40, 5));
+            Assert.That(_tools.LastFailure, Is.EqualTo(CommandFailure.NoRoadAccess));
+            _tools.SelectTool(BuildTool.Road);
+            Assert.That(_tools.LastFailure, Is.EqualTo(CommandFailure.None));
+        }
+
+        [Test]
+        public void Cancel_ClearsLastFailure()
+        {
+            _tools.SelectTool(BuildTool.PowerPlant);
+            _tools.PointerDown(C(40, 5));
+            _tools.Cancel();
+            Assert.That(_tools.LastFailure, Is.EqualTo(CommandFailure.None));
+        }
+
+        [Test]
         public void NoTool_ClickDoesNothing()
         {
             _tools.PointerDown(C(1, 50));

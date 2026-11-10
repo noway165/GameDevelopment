@@ -55,6 +55,23 @@ namespace Metropolis.Core.Tests
         }
 
         [Test]
+        public void Save_OverCorruptFile_KeepsGoodBackup()
+        {
+            var w = Built();
+            var path = TempPath();
+            var s = new SaveService(path);
+            s.TrySave(w.City, out _);
+            s.TrySave(w.City, out _);
+            var good = File.ReadAllText(path + ".bak");
+            File.WriteAllText(path, "{ broken");
+
+            Assert.That(s.TrySave(w.City, out var error), Is.True, error);
+
+            Assert.That(File.ReadAllText(path + ".bak"), Is.EqualTo(good));
+            Assert.That(File.ReadAllText(path + ".corrupt"), Is.EqualTo("{ broken"));
+        }
+
+        [Test]
         public void SecondSave_KeepsBackup()
         {
             var w = Built();

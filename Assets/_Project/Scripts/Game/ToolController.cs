@@ -43,6 +43,7 @@ namespace Metropolis.Game
         {
             Tool = tool;
             _dragStart = null;
+            LastFailure = CommandFailure.None;
             RecomputePreview();
         }
 
@@ -94,6 +95,7 @@ namespace Metropolis.Game
                 _dragStart = null;
             else
                 Tool = BuildTool.None;
+            LastFailure = CommandFailure.None;
             RecomputePreview();
         }
 

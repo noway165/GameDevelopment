@@ -20,6 +20,7 @@ namespace Metropolis.Core
             try
             {
                 Directory.CreateDirectory(System.IO.Path.GetDirectoryName(Path));
+                MoveAsideIfCorrupt();
             }
             catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
             {
@@ -28,6 +29,17 @@ namespace Metropolis.Core
             }
 
             return SaveFile.TryWrite(Path, SaveSerializer.Serialize(city), out error);
+        }
+
+        /// <summary>Stops a corrupt save from being rotated onto the last good backup.</summary>
+        void MoveAsideIfCorrupt()
+        {
+            if (!SaveFile.TryRead(Path, out var current, out _) || SaveSerializer.IsParseable(current))
+                return;
+
+            var aside = Path + ".corrupt";
+            File.Delete(aside);
+            File.Move(Path, aside);
         }
 
         public bool TryLoad(BuildingCatalog catalog, SimulationConfig config, out CityState city,
