@@ -37,6 +37,7 @@ namespace Metropolis.Game
         public IReadOnlyList<Cell> PreviewValid => _valid;
         public IReadOnlyList<Cell> PreviewInvalid => _invalid;
         public int PreviewVersion { get; private set; }
+        public bool IsDragging => _dragStart != null;
 
         public void SelectTool(BuildTool tool)
         {
@@ -75,6 +76,15 @@ namespace Metropolis.Game
             _dragStart = null;
             if (cell != null)
                 Commit(start, cell.Value);
+            RecomputePreview();
+        }
+
+        /// <summary>Drops an active drag and keeps the tool, for when the mouse-up will never arrive.</summary>
+        public void CancelDrag()
+        {
+            if (_dragStart == null)
+                return;
+            _dragStart = null;
             RecomputePreview();
         }
 

@@ -184,6 +184,26 @@ namespace Metropolis.Game.Tests
         }
 
         [Test]
+        public void CancelDrag_DropsDrag_KeepsTool()
+        {
+            _tools.SelectTool(BuildTool.Road);
+            _tools.PointerDown(C(1, 50));
+            Assert.That(_tools.IsDragging, Is.True);
+            _tools.CancelDrag();
+            _tools.PointerUp(C(5, 50));
+            Assert.That(_tools.Tool, Is.EqualTo(BuildTool.Road));
+            Assert.That(_sim.City.HasRoad(C(5, 50)), Is.False);
+        }
+
+        [Test]
+        public void CancelDrag_WithoutDrag_KeepsTool()
+        {
+            _tools.SelectTool(BuildTool.Road);
+            _tools.CancelDrag();
+            Assert.That(_tools.Tool, Is.EqualTo(BuildTool.Road));
+        }
+
+        [Test]
         public void NoTool_ClickDoesNothing()
         {
             _tools.PointerDown(C(1, 50));
