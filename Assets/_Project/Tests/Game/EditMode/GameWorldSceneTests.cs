@@ -61,6 +61,13 @@ namespace Metropolis.Game.Tests
         }
 
         [Test]
+        public void Scene_InputKnowsTheInterface()
+        {
+            var input = new SerializedObject(Object.FindFirstObjectByType<InputBridge>());
+            Assert.That(input.FindProperty("ui").objectReferenceValue, Is.Not.Null);
+        }
+
+        [Test]
         public void Scene_IsInBuildList() =>
             Assert.That(EditorBuildSettings.scenes.Any(s => s.path.EndsWith("GameWorld.unity")), Is.True);
     }

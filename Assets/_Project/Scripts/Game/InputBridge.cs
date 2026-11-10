@@ -13,8 +13,12 @@ namespace Metropolis.Game
         [SerializeField] CameraRig rig;
         [SerializeField] Camera view;
         [SerializeField] LayerMask terrainMask;
+        [SerializeField] GameUi ui;
 
         SimulationSpeed _lastSpeed = SimulationSpeed.X1;
+
+        // A GameUi that failed to build disables itself; the game then runs on hotkeys alone.
+        GameUi Interface => ui != null && ui.isActiveAndEnabled ? ui : null;
 
         void Update()
         {
@@ -25,10 +29,33 @@ namespace Metropolis.Game
             if (keyboard == null || mouse == null || game.Simulation == null)
                 return;
 
+            var live = Interface;
+            if (keyboard.escapeKey.wasPressedThisFrame)
+            {
+                if (live != null) live.HandleEscape();
+                else game.Tools.Cancel();
+            }
+
+            if (live != null && live.MenuOpen)
+            {
+                // Menus own the screen: no hover preview, hotkeys or camera behind them.
+                game.Tools.PointerMove(null);
+                return;
+            }
+
             ReadCamera(keyboard, mouse);
             ReadTools(keyboard);
             ReadSpeed(keyboard);
-            ReadPointer(keyboard, mouse);
+            if (live != null && keyboard.f5Key.wasPressedThisFrame)
+                live.Save();
+            ReadPointer(mouse, live);
+        }
+
+        void OnApplicationFocus(bool focused)
+        {
+            // The mouse-up of a drag is lost when the window loses focus.
+            if (!focused && game != null && game.Tools != null)
+                game.Tools.CancelDrag();
         }
 
         void ReadCamera(Keyboard keyboard, Mouse mouse)
@@ -82,16 +109,20 @@ namespace Metropolis.Game
             if (keyboard.f3Key.wasPressedThisFrame) clock.Speed = _lastSpeed = SimulationSpeed.X4;
         }
 
-        void ReadPointer(Keyboard keyboard, Mouse mouse)
+        void ReadPointer(Mouse mouse, GameUi live)
         {
             var tools = game.Tools;
+            var position = mouse.position.ReadValue();
+
+            // Over the interface the pointer counts as off the map, so a button click builds nothing.
+            bool overUi = live != null && live.IsScreenPointOverUi(position);
             Cell? cell = null;
-            var ray = view.ScreenPointToRay(mouse.position.ReadValue());
-            if (Physics.Raycast(ray, out var hit, RayDistance, terrainMask) && game.Map.TryGetCell(hit.point, out var found))
+            if (!overUi && Physics.Raycast(view.ScreenPointToRay(position), out var hit, RayDistance, terrainMask)
+                && game.Map.TryGetCell(hit.point, out var found))
                 cell = found;
 
             tools.PointerMove(cell);
-            if (keyboard.escapeKey.wasPressedThisFrame || mouse.rightButton.wasPressedThisFrame)
+            if (mouse.rightButton.wasPressedThisFrame && !overUi)
                 tools.Cancel();
             if (mouse.leftButton.wasPressedThisFrame)
                 tools.PointerDown(cell);

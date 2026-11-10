@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &160472909
+--- !u!1 &242481670
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,67 +127,84 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 160472912}
-  - component: {fileID: 160472910}
-  - component: {fileID: 160472911}
-  m_Layer: 0
-  m_Name: Game
+  - component: {fileID: 242481673}
+  - component: {fileID: 242481671}
+  - component: {fileID: 242481672}
+  m_Layer: 8
+  m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!114 &160472910
-MonoBehaviour:
+--- !u!218 &242481671
+Terrain:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160472909}
+  m_GameObject: {fileID: 242481670}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b97b936483d37446b61386af7645130, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.GameController
-  terrain: {fileID: 809579381}
-  buildings:
-  - {fileID: 11400000, guid: 3a897236bf6d724489f3160843c53472, type: 2}
-  - {fileID: 11400000, guid: 76b0e2c5a606aea45b7385c42341f886, type: 2}
-  - {fileID: 11400000, guid: 2f8cdb1f6d9eb224c814d9c20fc67491, type: 2}
-  - {fileID: 11400000, guid: f25636ee631f12e48a74e0a8417d8e29, type: 2}
-  - {fileID: 11400000, guid: 950fa162a90702d499659a253117702d, type: 2}
-  - {fileID: 11400000, guid: 7a156c41c2d2c4646b27a6f5aca3fda0, type: 2}
-  - {fileID: 11400000, guid: c4f1553f0ffddcc4c9442bc47c2aa534, type: 2}
-  roadPrefab: {fileID: 7788886469721388624, guid: a9c5e283fd10e0c4088bdc5d3bdb5b8a, type: 3}
-  residentialZonePrefab: {fileID: 633649231438044469, guid: 2b955b359f1843c429016b1b8d97bd93, type: 3}
-  commercialZonePrefab: {fileID: 6176697919235500715, guid: b947c72375d05c546a596586c002c89a, type: 3}
-  industrialZonePrefab: {fileID: 8597791353346701683, guid: 2d49ad5317bb5974ca7a17f81340974d, type: 3}
-  previewPrefab: {fileID: 5300616669133220226, guid: bf307e07ae70e3b4db6c143da6e1efc4, type: 3}
---- !u!114 &160472911
-MonoBehaviour:
+  serializedVersion: 6
+  m_TerrainData: {fileID: 15600000, guid: a2bf1bfdf5218fd4e948020a9e084234, type: 2}
+  m_TreeDistance: 5000
+  m_TreeBillboardDistance: 50
+  m_TreeCrossFadeLength: 5
+  m_TreeMaximumFullLODCount: 50
+  m_DetailObjectDistance: 80
+  m_DetailObjectDensity: 1
+  m_HeightmapPixelError: 5
+  m_SplatMapDistance: 1000
+  m_HeightmapMinimumLODSimplification: 0
+  m_HeightmapMaximumLOD: 0
+  m_ShadowCastingMode: 2
+  m_DrawHeightmap: 1
+  m_DrawInstanced: 0
+  m_DrawTreesAndFoliage: 1
+  m_StaticShadowCaster: 0
+  m_IgnoreQualitySettings: 0
+  m_ReflectionProbeUsage: 1
+  m_MaterialTemplate: {fileID: 2100000, guid: 37ae6f0d68fded140a67e59f73988730, type: 2}
+  m_BakeLightProbesForTrees: 1
+  m_PreserveTreePrototypeLayers: 0
+  m_DeringLightProbesForTrees: 1
+  m_ReceiveGI: 1
+  m_ScaleInLightmap: 0.032
+  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_GroupingID: 0
+  m_RenderingLayerMask: 1
+  m_AllowAutoConnect: 1
+  m_EnableHeightmapRayTracing: 1
+  m_EnableTreesAndDetailsRayTracing: 0
+  m_EnableHeightmapLODFrustumCulling: 1
+  m_TreeMotionVectorModeOverride: 3
+--- !u!154 &242481672
+TerrainCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160472909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4268f30b8fcaca84fa3c543123400777, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.InputBridge
-  game: {fileID: 160472910}
-  rig: {fileID: 1034332540}
-  view: {fileID: 2089405811}
-  terrainMask:
+  m_GameObject: {fileID: 242481670}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 256
---- !u!4 &160472912
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_TerrainData: {fileID: 15600000, guid: a2bf1bfdf5218fd4e948020a9e084234, type: 2}
+  m_EnableTreeColliders: 1
+--- !u!4 &242481673
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160472909}
+  m_GameObject: {fileID: 242481670}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -196,7 +213,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &568405011
+--- !u!1 &1098219087
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,8 +221,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 568405013}
-  - component: {fileID: 568405012}
+  - component: {fileID: 1098219089}
+  - component: {fileID: 1098219088}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
@@ -213,13 +230,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!108 &568405012
+--- !u!108 &1098219088
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568405011}
+  m_GameObject: {fileID: 1098219087}
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
@@ -278,13 +295,13 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!4 &568405013
+--- !u!4 &1098219089
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568405011}
+  m_GameObject: {fileID: 1098219087}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821794, y: -0.23456973, z: 0.10938166, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -293,7 +310,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &809579380
+--- !u!1 &1222418183
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -301,153 +318,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 809579383}
-  - component: {fileID: 809579381}
-  - component: {fileID: 809579382}
-  m_Layer: 8
-  m_Name: Terrain
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!218 &809579381
-Terrain:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 809579380}
-  m_Enabled: 1
-  serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: a2bf1bfdf5218fd4e948020a9e084234, type: 2}
-  m_TreeDistance: 5000
-  m_TreeBillboardDistance: 50
-  m_TreeCrossFadeLength: 5
-  m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
-  m_DetailObjectDensity: 1
-  m_HeightmapPixelError: 5
-  m_SplatMapDistance: 1000
-  m_HeightmapMinimumLODSimplification: 0
-  m_HeightmapMaximumLOD: 0
-  m_ShadowCastingMode: 2
-  m_DrawHeightmap: 1
-  m_DrawInstanced: 0
-  m_DrawTreesAndFoliage: 1
-  m_StaticShadowCaster: 0
-  m_IgnoreQualitySettings: 0
-  m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: 37ae6f0d68fded140a67e59f73988730, type: 2}
-  m_BakeLightProbesForTrees: 1
-  m_PreserveTreePrototypeLayers: 0
-  m_DeringLightProbesForTrees: 1
-  m_ReceiveGI: 1
-  m_ScaleInLightmap: 0.032
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
-  m_GroupingID: 0
-  m_RenderingLayerMask: 1
-  m_AllowAutoConnect: 1
-  m_EnableHeightmapRayTracing: 1
-  m_EnableTreesAndDetailsRayTracing: 0
-  m_EnableHeightmapLODFrustumCulling: 1
-  m_TreeMotionVectorModeOverride: 3
---- !u!154 &809579382
-TerrainCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 809579380}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: a2bf1bfdf5218fd4e948020a9e084234, type: 2}
-  m_EnableTreeColliders: 1
---- !u!4 &809579383
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 809579380}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1034332538
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1034332539}
-  - component: {fileID: 1034332540}
-  m_Layer: 0
-  m_Name: CameraRig
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1034332539
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034332538}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 400, y: 150, z: 300}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2089405812}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1034332540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034332538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3cb023076970874da8d6ce8107a4b95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.CameraRig
-  panSpeed: 1
-  rotateSpeed: 90
-  zoomStep: 20
-  minHeight: 30
-  maxHeight: 300
---- !u!1 &1095479839
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1095479842}
-  - component: {fileID: 1095479841}
-  - component: {fileID: 1095479840}
+  - component: {fileID: 1222418186}
+  - component: {fileID: 1222418185}
+  - component: {fileID: 1222418184}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -455,26 +328,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1095479840
+--- !u!114 &1222418184
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095479839}
+  m_GameObject: {fileID: 1222418183}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 750860d800c7ed047a0d1960cb58622c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.GameUi
-  game: {fileID: 160472910}
---- !u!114 &1095479841
+  game: {fileID: 1842464648}
+--- !u!114 &1222418185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095479839}
+  m_GameObject: {fileID: 1222418183}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
@@ -491,13 +364,13 @@ MonoBehaviour:
   m_PivotReferenceSize: 0
   m_Pivot: 0
   m_WorldSpaceCollider: {fileID: 0}
---- !u!4 &1095479842
+--- !u!4 &1222418186
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095479839}
+  m_GameObject: {fileID: 1222418183}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -506,7 +379,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2089405810
+--- !u!1 &1842464647
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -514,8 +387,136 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2089405812}
-  - component: {fileID: 2089405811}
+  - component: {fileID: 1842464650}
+  - component: {fileID: 1842464648}
+  - component: {fileID: 1842464649}
+  m_Layer: 0
+  m_Name: Game
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1842464648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842464647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b97b936483d37446b61386af7645130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.GameController
+  terrain: {fileID: 242481671}
+  buildings:
+  - {fileID: 11400000, guid: 3a897236bf6d724489f3160843c53472, type: 2}
+  - {fileID: 11400000, guid: 76b0e2c5a606aea45b7385c42341f886, type: 2}
+  - {fileID: 11400000, guid: 2f8cdb1f6d9eb224c814d9c20fc67491, type: 2}
+  - {fileID: 11400000, guid: f25636ee631f12e48a74e0a8417d8e29, type: 2}
+  - {fileID: 11400000, guid: 950fa162a90702d499659a253117702d, type: 2}
+  - {fileID: 11400000, guid: 7a156c41c2d2c4646b27a6f5aca3fda0, type: 2}
+  - {fileID: 11400000, guid: c4f1553f0ffddcc4c9442bc47c2aa534, type: 2}
+  roadPrefab: {fileID: 7788886469721388624, guid: a9c5e283fd10e0c4088bdc5d3bdb5b8a, type: 3}
+  residentialZonePrefab: {fileID: 633649231438044469, guid: 2b955b359f1843c429016b1b8d97bd93, type: 3}
+  commercialZonePrefab: {fileID: 6176697919235500715, guid: b947c72375d05c546a596586c002c89a, type: 3}
+  industrialZonePrefab: {fileID: 8597791353346701683, guid: 2d49ad5317bb5974ca7a17f81340974d, type: 3}
+  previewPrefab: {fileID: 5300616669133220226, guid: bf307e07ae70e3b4db6c143da6e1efc4, type: 3}
+--- !u!114 &1842464649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842464647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4268f30b8fcaca84fa3c543123400777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.InputBridge
+  game: {fileID: 1842464648}
+  rig: {fileID: 1845355971}
+  view: {fileID: 1947948108}
+  terrainMask:
+    serializedVersion: 2
+    m_Bits: 256
+  ui: {fileID: 1222418184}
+--- !u!4 &1842464650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842464647}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1845355969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1845355970}
+  - component: {fileID: 1845355971}
+  m_Layer: 0
+  m_Name: CameraRig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1845355970
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845355969}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 400, y: 150, z: 300}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1947948109}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1845355971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845355969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3cb023076970874da8d6ce8107a4b95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Metropolis.Game::Metropolis.Game.CameraRig
+  panSpeed: 1
+  rotateSpeed: 90
+  zoomStep: 20
+  minHeight: 30
+  maxHeight: 300
+--- !u!1 &1947948107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1947948109}
+  - component: {fileID: 1947948108}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -523,13 +524,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!20 &2089405811
+--- !u!20 &1947948108
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2089405810}
+  m_GameObject: {fileID: 1947948107}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -574,27 +575,27 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!4 &2089405812
+--- !u!4 &1947948109
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2089405810}
+  m_GameObject: {fileID: 1947948107}
   serializedVersion: 2
   m_LocalRotation: {x: 0.46174863, y: 0, z: 0, w: 0.8870109}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1034332539}
+  m_Father: {fileID: 1845355970}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 809579383}
-  - {fileID: 1034332539}
-  - {fileID: 568405013}
-  - {fileID: 160472912}
-  - {fileID: 1095479842}
+  - {fileID: 242481673}
+  - {fileID: 1845355970}
+  - {fileID: 1098219089}
+  - {fileID: 1842464650}
+  - {fileID: 1222418186}

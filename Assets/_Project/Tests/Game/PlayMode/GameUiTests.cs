@@ -204,6 +204,21 @@ namespace Metropolis.Game.PlayTests
         }
 
         [UnityTest]
+        public IEnumerator Pointer_OverToolbarOrMenu_IsOverUi()
+        {
+            _ui.NewCity();
+            yield return null;
+            yield return null;
+            var button = _ui.Root.Q<Button>("tool-Road");
+            Assert.That(float.IsNaN(button.worldBound.width), Is.False);
+            Assert.That(_ui.IsOverUi(button.worldBound.center), Is.True);
+            Assert.That(_ui.IsOverUi(_ui.Root.worldBound.center), Is.False);
+            _ui.OpenPauseMenu();
+            yield return null;
+            Assert.That(_ui.IsOverUi(_ui.Root.worldBound.center), Is.True);
+        }
+
+        [UnityTest]
         public IEnumerator UnwiredInterface_LogsOnce_AndDisablesItself()
         {
             LogAssert.Expect(LogType.Error, new Regex("GameUi"));

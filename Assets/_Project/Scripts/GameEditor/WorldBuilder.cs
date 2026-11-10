@@ -79,8 +79,7 @@ namespace Metropolis.GameEditor
             var rig = CreateCameraRig(out var view);
             CreateSun();
             var controller = WireController(terrain, assets, road, residential, commercial, industrial, preview);
-            WireInput(controller, rig, view, terrainLayer);
-            CreateInterface(controller);
+            WireInput(controller, rig, view, terrainLayer, CreateInterface(controller));
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
@@ -228,13 +227,14 @@ namespace Metropolis.GameEditor
             sun.transform.rotation = Quaternion.Euler(50, -30, 0);
         }
 
-        static void WireInput(GameController controller, CameraRig rig, Camera view, int terrainLayer)
+        static void WireInput(GameController controller, CameraRig rig, Camera view, int terrainLayer, GameUi ui)
         {
             var input = new SerializedObject(controller.gameObject.AddComponent<InputBridge>());
             input.FindProperty("game").objectReferenceValue = controller;
             input.FindProperty("rig").objectReferenceValue = rig;
             input.FindProperty("view").objectReferenceValue = view;
             input.FindProperty("terrainMask").intValue = 1 << terrainLayer;
+            input.FindProperty("ui").objectReferenceValue = ui;
             input.ApplyModifiedPropertiesWithoutUndo();
         }
 
