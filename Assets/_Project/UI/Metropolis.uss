@@ -1,0 +1,131 @@
+.bar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(20, 24, 30, 0.88);
+    padding: 6px 10px;
+}
+
+.bar-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.hud-label {
+    color: rgb(235, 238, 242);
+    font-size: 16px;
+    margin-right: 18px;
+}
+
+.debt {
+    color: rgb(255, 96, 88);
+    -unity-font-style: bold;
+}
+
+.hud-button {
+    min-height: 36px;
+    min-width: 44px;
+    font-size: 15px;
+    margin: 2px 3px;
+    padding: 4px 10px;
+    color: rgb(235, 238, 242);
+    background-color: rgb(52, 60, 72);
+    border-width: 1px;
+    border-color: rgb(84, 94, 110);
+    border-radius: 4px;
+}
+
+.hud-button:hover {
+    background-color: rgb(70, 80, 96);
+}
+
+.hud-button.active,
+.hud-button.active:hover {
+    background-color: rgb(40, 120, 200);
+    border-color: rgb(120, 190, 255);
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.info {
+    align-self: center;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    background-color: rgba(20, 24, 30, 0.88);
+    padding: 4px 14px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+}
+
+.toolbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: rgba(20, 24, 30, 0.88);
+    padding: 8px;
+}
+
+.tool-button {
+    min-width: 128px;
+    min-height: 54px;
+    white-space: normal;
+}
+
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.panel {
+    background-color: rgb(28, 33, 41);
+    border-width: 1px;
+    border-color: rgb(84, 94, 110);
+    border-radius: 8px;
+    padding: 28px 36px;
+    min-width: 340px;
+}
+
+.title {
+    color: rgb(255, 255, 255);
+    font-size: 34px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    margin-bottom: 18px;
+}
+
+.menu-button {
+    min-height: 44px;
+    min-width: 120px;
+    font-size: 18px;
+    margin: 5px 4px;
+}
+
+.note {
+    color: rgb(150, 220, 160);
+    font-size: 15px;
+    -unity-text-align: middle-center;
+    min-height: 22px;
+}
+
+.dialog-text {
+    color: rgb(235, 238, 242);
+    font-size: 16px;
+    white-space: normal;
+    max-width: 520px;
+    margin-bottom: 16px;
+}
+
+.dialog-row {
+    flex-direction: row;
+    justify-content: center;
+}

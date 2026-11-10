@@ -18,8 +18,8 @@ namespace Metropolis.Game
     /// <summary>Turns pointer actions into commands and works out the validity preview.</summary>
     public sealed class ToolController
     {
-        const string PowerPlantId = "power_plant_01";
-        const string WaterPumpId = "water_pump_01";
+        public const string PowerPlantId = "power_plant_01";
+        public const string WaterPumpId = "water_pump_01";
 
         readonly Simulation _simulation;
         readonly List<Cell> _valid = new List<Cell>();

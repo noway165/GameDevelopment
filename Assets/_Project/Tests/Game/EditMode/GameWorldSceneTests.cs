@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Metropolis.Game.Tests
 {
@@ -47,6 +48,16 @@ namespace Metropolis.Game.Tests
                 Assert.That(a.WaterDemand, Is.EqualTo(d.WaterDemand), d.Id);
                 Assert.That(a.Supply, Is.EqualTo(d.Supply), d.Id);
             }
+        }
+
+        [Test]
+        public void Scene_HasWiredInterface()
+        {
+            var ui = Object.FindFirstObjectByType<GameUi>();
+            Assert.That(ui, Is.Not.Null);
+            var panel = ui.GetComponent<UIDocument>().panelSettings;
+            Assert.That(panel, Is.Not.Null);
+            Assert.That(panel.themeStyleSheet, Is.Not.Null);
         }
 
         [Test]

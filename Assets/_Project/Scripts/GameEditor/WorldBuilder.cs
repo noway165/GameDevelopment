@@ -8,6 +8,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace Metropolis.GameEditor
@@ -79,6 +80,7 @@ namespace Metropolis.GameEditor
             CreateSun();
             var controller = WireController(terrain, assets, road, residential, commercial, industrial, preview);
             WireInput(controller, rig, view, terrainLayer);
+            CreateInterface(controller);
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
@@ -234,10 +236,30 @@ namespace Metropolis.GameEditor
             input.FindProperty("view").objectReferenceValue = view;
             input.FindProperty("terrainMask").intValue = 1 << terrainLayer;
             input.ApplyModifiedPropertiesWithoutUndo();
+        }
 
-            var readout = new SerializedObject(controller.gameObject.AddComponent<DebugReadout>());
-            readout.FindProperty("game").objectReferenceValue = controller;
-            readout.ApplyModifiedPropertiesWithoutUndo();
+        static GameUi CreateInterface(GameController controller)
+        {
+            // The theme and its style sheet are hand-written source files, not generated ones.
+            var theme = AssetDatabase.LoadAssetAtPath<ThemeStyleSheet>(Root + "UI/MetropolisTheme.tss");
+            if (theme == null)
+                throw new InvalidOperationException("UI theme was not found at " + Root + "UI/MetropolisTheme.tss.");
+
+            var panel = ScriptableObject.CreateInstance<PanelSettings>();
+            panel.themeStyleSheet = theme;
+            panel.scaleMode = PanelScaleMode.ScaleWithScreenSize;
+            panel.referenceResolution = new Vector2Int(1600, 900);
+            panel.screenMatchMode = PanelScreenMatchMode.MatchWidthOrHeight;
+            panel.match = 0.5f;
+            AssetDatabase.CreateAsset(panel, Root + "UI/MetropolisPanel.asset");
+
+            var host = new GameObject("UI");
+            host.AddComponent<UIDocument>().panelSettings = panel;
+            var ui = host.AddComponent<GameUi>();
+            var wiring = new SerializedObject(ui);
+            wiring.FindProperty("game").objectReferenceValue = controller;
+            wiring.ApplyModifiedPropertiesWithoutUndo();
+            return ui;
         }
 
         static GameController WireController(Terrain terrain, List<BuildingAsset> assets, GameObject road,
