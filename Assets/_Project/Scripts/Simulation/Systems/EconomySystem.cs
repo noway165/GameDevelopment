@@ -4,6 +4,14 @@ namespace Metropolis.Core
     {
         public static void Run(SimContext ctx)
         {
+            Compute(ctx);
+            var stats = ctx.City.Statistics;
+            ctx.City.Budget += stats.Revenue - stats.Expenses;
+        }
+
+        /// <summary>Fills revenue and expenses without changing the budget.</summary>
+        public static void Compute(SimContext ctx)
+        {
             var city = ctx.City;
             var stats = city.Statistics;
             var config = ctx.Config;
@@ -17,7 +25,6 @@ namespace Metropolis.Core
 
             stats.Revenue = revenue;
             stats.Expenses = expenses;
-            city.Budget += revenue - expenses;
         }
     }
 }

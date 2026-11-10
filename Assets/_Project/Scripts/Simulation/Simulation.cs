@@ -49,8 +49,10 @@ namespace Metropolis.Core
             InfrastructureSystem.Run(Context, work);
             OperationSystem.Run(Context, work);
             EmploymentSystem.Run(Context);
+            PopulationSystem.RefreshStatistics(Context);
             PopulationSystem.FillHousing(Context);
             DemandSystem.Run(Context);
+            EconomySystem.Compute(Context);
         }
     }
 }

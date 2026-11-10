@@ -89,6 +89,24 @@ namespace Metropolis.Core.Tests
             Assert.That(w.City.Day, Is.EqualTo(0));
         }
 
+        [Test]
+        public void RefreshDerived_FillsHudStatistics_WithoutChangingSave()
+        {
+            var w = TestWorld.Create().Road(0, 10, 20, 10);
+            w.Place("power_plant_01", 1, 9);
+            w.Place("water_pump_01", 2, 9);
+            w.Place("residential_low_01", 3, 9);
+            w.Place("commercial_small_01", 4, 9);
+            w.City.Population = 20;
+            var before = SaveSerializer.Serialize(w.City);
+            new Simulation(w.City, w.Ctx.Catalog, w.Ctx.Config);
+            Assert.That(w.Stats.Housing, Is.EqualTo(20));
+            Assert.That(w.Stats.Attractiveness, Is.EqualTo(100));
+            Assert.That(w.Stats.Revenue, Is.EqualTo(70L));
+            Assert.That(w.Stats.Expenses, Is.EqualTo(173L));
+            Assert.That(SaveSerializer.Serialize(w.City), Is.EqualTo(before));
+        }
+
         static SimulationClock Clock(SimulationSpeed speed) =>
             new SimulationClock(TestConfig.Pinned(21, 21)) { Speed = speed };
 

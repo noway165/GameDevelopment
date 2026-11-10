@@ -4,6 +4,24 @@ namespace Metropolis.Core
     {
         public static void Run(SimContext ctx)
         {
+            RefreshStatistics(ctx);
+
+            var city = ctx.City;
+            var stats = city.Statistics;
+            city.Population = System.Math.Min(city.Population, stats.Housing);
+
+            int arrivals = Arrivals(stats.Housing - city.Population, stats.Attractiveness);
+            int departures = Departures(city.Population, stats.Attractiveness, ctx.Config);
+            city.Population += arrivals - departures;
+            stats.Arrivals = arrivals;
+            stats.Departures = departures;
+
+            FillHousing(ctx);
+        }
+
+        /// <summary>Fills housing and attractiveness figures without changing population.</summary>
+        public static void RefreshStatistics(SimContext ctx)
+        {
             var city = ctx.City;
             var stats = city.Statistics;
 
@@ -21,29 +39,16 @@ namespace Metropolis.Core
                     housing += definition.Capacity;
             }
 
-            city.Population = System.Math.Min(city.Population, housing);
-            int vacant = housing - city.Population;
-
             int unemployment = stats.Workers == 0
                 ? 0
                 : (int)(100L * (stats.Workers - stats.Employed) / stats.Workers);
             int nonRunning = city.Buildings.Count == 0
                 ? 0
                 : (int)(100L * nonOperational / city.Buildings.Count);
-            int attractiveness = Attractiveness(city.TaxRate, unemployment, nonRunning, ctx.Config);
-            int arrivals = Arrivals(vacant, attractiveness);
-            int departures = Departures(city.Population, attractiveness, ctx.Config);
-
-            city.Population += arrivals - departures;
-
             stats.Housing = housing;
-            stats.Arrivals = arrivals;
-            stats.Departures = departures;
             stats.UnemploymentPercent = unemployment;
             stats.NonRunningPercent = nonRunning;
-            stats.Attractiveness = attractiveness;
-
-            FillHousing(ctx);
+            stats.Attractiveness = Attractiveness(city.TaxRate, unemployment, nonRunning, ctx.Config);
         }
 
         public static void FillHousing(SimContext ctx)
