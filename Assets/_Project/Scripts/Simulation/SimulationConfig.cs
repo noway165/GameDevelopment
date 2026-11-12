@@ -14,8 +14,8 @@ namespace Metropolis.Core
         public int NeutralTaxRate { get; set; } = 10;
         public int TaxPenaltyPerPoint { get; set; } = 5;
         public int WorkerPercent { get; set; } = 50;
-        public int ResidentTaxBase { get; set; } = 20;
-        public int JobTaxBase { get; set; } = 30;
+        public int ResidentTaxBase { get; set; } = 8;
+        public int JobTaxBase { get; set; } = 12;
         public int LeaveThreshold { get; set; } = 40;
         public int LeavePercent { get; set; } = 2;
         public int SecondsPerDay { get; set; } = 2;

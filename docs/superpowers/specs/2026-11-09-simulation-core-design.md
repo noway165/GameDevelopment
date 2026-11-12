@@ -138,7 +138,7 @@ These are parameters, to be tuned using the balance scenario in section 12.
 | `RoadCostPerCell` | 10 |
 | `DefaultTaxRate`, `MaxTaxRate` | 10, 30 |
 | `WorkerPercent` | 50 |
-| `ResidentTaxBase`, `JobTaxBase` | 20, 30 |
+| `ResidentTaxBase`, `JobTaxBase` | 8, 12 |
 | `LeaveThreshold`, `LeavePercent` | 40, 2 |
 | `SecondsPerDay` at 1x | 2 |
 | `GrowthDemandThreshold`, `MaxGrowthPerType` | 10, 4 |

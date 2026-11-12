@@ -113,7 +113,7 @@ namespace Metropolis.Core.Tests
         {
             var csv = new StringBuilder("day,population,budget,housing,jobs,residential,commercial,industrial\n");
             int populationDay50 = 0, populationDay100 = 0;
-            long budgetDay100 = 0;
+            long budgetDay100 = 0, lowestBudget = long.MaxValue;
 
             var s = Bot(365, (day, sim) =>
             {
@@ -122,6 +122,7 @@ namespace Metropolis.Core.Tests
                 csv.Append(day).Append(',').Append(c.Population).Append(',').Append(c.Budget).Append(',')
                     .Append(st.Housing).Append(',').Append(st.Jobs).Append(',').Append(st.ResidentialDemand).Append(',')
                     .Append(st.CommercialDemand).Append(',').Append(st.IndustrialDemand).Append('\n');
+                lowestBudget = System.Math.Min(lowestBudget, c.Budget);
                 if (day == 50) populationDay50 = c.Population;
                 if (day == 100)
                 {
@@ -134,6 +135,8 @@ namespace Metropolis.Core.Tests
             Assert.That(budgetDay100, Is.GreaterThan(0L));
             Assert.That(populationDay100, Is.GreaterThan(populationDay50));
             Assert.That(s.City.Population, Is.GreaterThanOrEqualTo(1000));
+            Assert.That(lowestBudget, Is.GreaterThan(0L), "budget went negative");
+            Assert.That(s.City.Budget, Is.InRange(50000L, 250000L), "budget at day 365");
         }
 
         [Test]
