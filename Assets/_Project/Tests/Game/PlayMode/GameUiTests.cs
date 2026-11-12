@@ -233,6 +233,80 @@ namespace Metropolis.Game.PlayTests
             Assert.That(_ui.IsOverUi(_ui.Root.worldBound.center), Is.True);
         }
 
+        [Test]
+        public void FailedSave_PausesBehindDialog_AndResumesSpeed()
+        {
+            _ui.NewCity();
+            _ui.SetSpeed(SimulationSpeed.X4);
+            _c.Tools.SelectTool(BuildTool.Road);
+            _c.Tools.PointerDown(C(1, 50));
+            Directory.CreateDirectory(_path);
+            _ui.Save();
+            Assert.That(_ui.DialogOpen, Is.True);
+            Assert.That(_c.Clock.Speed, Is.EqualTo(SimulationSpeed.Paused));
+            Assert.That(_c.Tools.IsDragging, Is.False);
+            _ui.DismissDialog();
+            Assert.That(_c.Clock.Speed, Is.EqualTo(SimulationSpeed.X4));
+            Assert.That(_ui.MenuOpen, Is.False);
+        }
+
+        [Test]
+        public void OpenPauseMenu_DropsActiveDrag()
+        {
+            _ui.NewCity();
+            _c.Tools.SelectTool(BuildTool.Road);
+            _c.Tools.PointerDown(C(1, 50));
+            _ui.OpenPauseMenu();
+            Assert.That(_c.Tools.IsDragging, Is.False);
+        }
+
+        [Test]
+        public void TogglePause_ResumesLastPlayingSpeed()
+        {
+            _ui.NewCity();
+            _ui.SetSpeed(SimulationSpeed.X4);
+            _ui.SetSpeed(SimulationSpeed.Paused);
+            _ui.TogglePause();
+            Assert.That(_c.Clock.Speed, Is.EqualTo(SimulationSpeed.X4));
+            _ui.TogglePause();
+            Assert.That(_c.Clock.Speed, Is.EqualTo(SimulationSpeed.Paused));
+            _ui.TogglePause();
+            Assert.That(_c.Clock.Speed, Is.EqualTo(SimulationSpeed.X4));
+        }
+
+        [Test]
+        public void InfoLabel_DoesNotBlockPointer() =>
+            Assert.That(L("info-label").pickingMode, Is.EqualTo(PickingMode.Ignore));
+
+        [Test]
+        public void Buttons_DoNotTakeKeyboardFocus()
+        {
+            var buttons = _ui.Root.Query<Button>().ToList();
+            Assert.That(buttons.Count, Is.GreaterThan(10));
+            foreach (var button in buttons)
+                Assert.That(button.focusable, Is.False, button.name);
+        }
+
+        [Test]
+        public void DialogText_Scrolls()
+        {
+            var scroll = _ui.Root.Q<ScrollView>("dialog-scroll");
+            Assert.That(scroll, Is.Not.Null);
+            Assert.That(scroll.Q<Label>("dialog-text"), Is.Not.Null);
+        }
+
+        [UnityTest]
+        public IEnumerator ScreenPoint_OverBars_IsUi_ButMapIsNot()
+        {
+            _ui.NewCity();
+            yield return null;
+            yield return null;
+            Assert.That(Screen.width, Is.GreaterThan(0));
+            Assert.That(_ui.IsScreenPointOverUi(new Vector2(Screen.width / 2f, 3)), Is.True, "toolbar");
+            Assert.That(_ui.IsScreenPointOverUi(new Vector2(Screen.width / 2f, Screen.height - 3)), Is.True, "top bar");
+            Assert.That(_ui.IsScreenPointOverUi(new Vector2(Screen.width / 2f, Screen.height / 2f)), Is.False, "map");
+        }
+
         [UnityTest]
         public IEnumerator UnwiredInterface_LogsOnce_AndDisablesItself()
         {

@@ -23,6 +23,8 @@ namespace Metropolis.Game
 
         UiScreen _screen = UiScreen.MainMenu;
         SimulationSpeed _resumeSpeed = SimulationSpeed.X1;
+        SimulationSpeed _playSpeed = SimulationSpeed.X1;
+        SimulationSpeed _dialogResumeSpeed = SimulationSpeed.X1;
         Action _dialogConfirm;
         bool _built;
         string _notice;
@@ -160,6 +162,7 @@ namespace Metropolis.Game
             if (!_built || !game.SessionActive || _screen != UiScreen.Playing)
                 return;
 
+            game.Tools.CancelDrag();
             _resumeSpeed = game.Clock.Speed;
             game.Clock.Speed = SimulationSpeed.Paused;
             _screen = UiScreen.PauseMenu;
@@ -186,8 +189,11 @@ namespace Metropolis.Game
                 return;
 
             _dialogConfirm = null;
+            bool wasOpen = DialogOpen;
             DialogOpen = false;
             Show(_dialog, false);
+            if (wasOpen && _screen == UiScreen.Playing)
+                game.Clock.Speed = _dialogResumeSpeed;
         }
 
         public void HandleEscape()
@@ -210,8 +216,24 @@ namespace Metropolis.Game
 
         public void SetSpeed(SimulationSpeed speed)
         {
-            if (_built && _screen == UiScreen.Playing && !DialogOpen)
-                game.Clock.Speed = speed;
+            if (!_built || _screen != UiScreen.Playing || DialogOpen)
+                return;
+
+            game.Clock.Speed = speed;
+            if (speed != SimulationSpeed.Paused)
+                _playSpeed = speed;
+        }
+
+        /// <summary>Space: pause, or resume at the last playing speed chosen by key or button.</summary>
+        public void TogglePause()
+        {
+            if (!_built || _screen != UiScreen.Playing || DialogOpen)
+                return;
+
+            if (game.Clock.Speed == SimulationSpeed.Paused)
+                game.Clock.Speed = _playSpeed;
+            else
+                SetSpeed(SimulationSpeed.Paused);
         }
 
         public void ChangeTax(int delta)
@@ -243,11 +265,21 @@ namespace Metropolis.Game
         {
             _screen = UiScreen.Playing;
             game.Clock.Speed = speed;
+            if (speed != SimulationSpeed.Paused)
+                _playSpeed = speed;
             ApplyScreen();
         }
 
         void ShowDialog(string text, Action confirm)
         {
+            game.Tools.CancelDrag();
+            if (!DialogOpen && _screen == UiScreen.Playing)
+            {
+                // A dialog over the running city, such as a failed F5 save, must stop time too.
+                _dialogResumeSpeed = game.Clock.Speed;
+                game.Clock.Speed = SimulationSpeed.Paused;
+            }
+
             _dialogText.text = text;
             _dialogConfirm = confirm;
             Show(_dialogCancel, confirm != null);
@@ -297,6 +329,8 @@ namespace Metropolis.Game
             Root.Add(spacer);
 
             _info = NewLabel("info-label", "info");
+            // Not pickable: hovering a building beneath it must not hide the text that describes it.
+            _info.pickingMode = PickingMode.Ignore;
             Root.Add(_info);
             Root.Add(BuildToolbar());
 
@@ -371,8 +405,11 @@ namespace Metropolis.Game
             _dialog = Overlay("dialog");
             var panel = Panel(_dialog);
 
+            var scroll = new ScrollView { name = "dialog-scroll" };
+            scroll.AddToClassList("dialog-scroll");
+            panel.Add(scroll);
             _dialogText = NewLabel("dialog-text", "dialog-text");
-            panel.Add(_dialogText);
+            scroll.Add(_dialogText);
 
             var row = new VisualElement();
             row.AddToClassList("dialog-row");
@@ -423,7 +460,8 @@ namespace Metropolis.Game
 
         static Button HudButton(VisualElement parent, string name, string text, Action onClick)
         {
-            var button = new Button(onClick) { name = name, text = text };
+            // Not focusable: otherwise Enter or WASD navigation re-clicks the last button pressed.
+            var button = new Button(onClick) { name = name, text = text, focusable = false };
             button.AddToClassList("hud-button");
             parent.Add(button);
             return button;

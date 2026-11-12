@@ -43,12 +43,14 @@ namespace Metropolis.Game
                 return;
             }
 
-            ReadCamera(keyboard, mouse);
+            var position = mouse.position.ReadValue();
+            bool overUi = live != null && live.IsScreenPointOverUi(position);
+            ReadCamera(keyboard, mouse, overUi);
             ReadTools(keyboard);
-            ReadSpeed(keyboard);
+            ReadSpeed(keyboard, live);
             if (live != null && keyboard.f5Key.wasPressedThisFrame)
                 live.Save();
-            ReadPointer(mouse, live);
+            ReadPointer(mouse, position, overUi);
         }
 
         void OnApplicationFocus(bool focused)
@@ -58,7 +60,7 @@ namespace Metropolis.Game
                 game.Tools.CancelDrag();
         }
 
-        void ReadCamera(Keyboard keyboard, Mouse mouse)
+        void ReadCamera(Keyboard keyboard, Mouse mouse, bool overUi)
         {
             float dt = Time.unscaledDeltaTime;
             var pan = new Vector2(
@@ -72,7 +74,7 @@ namespace Metropolis.Game
                 rig.Rotate(turn, dt);
 
             float scroll = mouse.scroll.ReadValue().y;
-            if (scroll != 0f)
+            if (scroll != 0f && !overUi)
                 rig.Zoom(scroll);
         }
 
@@ -88,8 +90,18 @@ namespace Metropolis.Game
             if (keyboard.digit7Key.wasPressedThisFrame) tools.SelectTool(BuildTool.WaterPump);
         }
 
-        void ReadSpeed(Keyboard keyboard)
+        void ReadSpeed(Keyboard keyboard, GameUi live)
         {
+            if (live != null)
+            {
+                // The interface owns speed, so keys and buttons share one remembered speed.
+                if (keyboard.spaceKey.wasPressedThisFrame) live.TogglePause();
+                if (keyboard.f1Key.wasPressedThisFrame) live.SetSpeed(SimulationSpeed.X1);
+                if (keyboard.f2Key.wasPressedThisFrame) live.SetSpeed(SimulationSpeed.X2);
+                if (keyboard.f3Key.wasPressedThisFrame) live.SetSpeed(SimulationSpeed.X4);
+                return;
+            }
+
             var clock = game.Clock;
             if (keyboard.spaceKey.wasPressedThisFrame)
             {
@@ -109,13 +121,11 @@ namespace Metropolis.Game
             if (keyboard.f3Key.wasPressedThisFrame) clock.Speed = _lastSpeed = SimulationSpeed.X4;
         }
 
-        void ReadPointer(Mouse mouse, GameUi live)
+        void ReadPointer(Mouse mouse, Vector2 position, bool overUi)
         {
             var tools = game.Tools;
-            var position = mouse.position.ReadValue();
 
             // Over the interface the pointer counts as off the map, so a button click builds nothing.
-            bool overUi = live != null && live.IsScreenPointOverUi(position);
             Cell? cell = null;
             if (!overUi && Physics.Raycast(view.ScreenPointToRay(position), out var hit, RayDistance, terrainMask)
                 && game.Map.TryGetCell(hit.point, out var found))

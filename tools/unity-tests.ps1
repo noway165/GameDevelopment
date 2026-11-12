@@ -30,5 +30,9 @@ foreach ($case in $xml.SelectNodes("//test-case[@result='Failed']")) {
     Write-Output "  FAILED $($case.fullname)"
     Write-Output "    $($case.failure.message.'#cdata-section')"
 }
+if ([int]$run.total -eq 0) {
+    Write-Output "${Platform}: no tests ran."
+    exit 1
+}
 if ([int]$run.failed -gt 0) { exit 1 }
 exit 0
